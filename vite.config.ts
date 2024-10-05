@@ -1,7 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc';
+// vite.config.ts
+import { defineConfig } from 'vitest/config'; // Import from 'vitest/config'
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  test: {
+    globals: true,            // Enables global APIs like `describe`, `it`, `expect`
+    environment: 'jsdom',     // Simulates a DOM environment
+    coverage: {
+      reporter: ['text', 'json', 'html'], // Generates coverage reports
+    },
+  },
+});
