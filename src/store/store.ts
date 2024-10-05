@@ -1,8 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
+import dataReducer from './slices/dataSlice';
+import preferencesReducer from './slices/preferencesSlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
+    data: dataReducer,
+    preferences: preferencesReducer,
   },
 });
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
