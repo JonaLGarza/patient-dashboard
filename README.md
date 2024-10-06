@@ -26,10 +26,6 @@ A responsive React application for displaying and managing patient data with rea
 - **Advanced State Management**: Uses Redux and React Query.
 - **Build-Time Enhancements**: Utilizes Vite plugins for file generation and QR code display.
 
-## Demo
-
-[Live Demo Link](#) (If available)
-
 ## Installation
 
 1. **Clone the repository**
