@@ -1,20 +1,33 @@
 // src/hooks/useWebSocket.ts
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateData } from '../store/slices/dataSlice';
+import { io } from 'socket.io-client';
+import { updateAllPatientVitals } from '../store/slices/dataSlice';
 
 export const useWebSocket = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = new WebSocket('wss://ws.postman-echo.com/raw');
+    const socket = io('http://localhost:8080');
 
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      dispatch(updateData(data));
-    };
+    socket.on('connect', () => {
+      console.log('Socket.IO connection established.');
+    });
+
+    socket.on('patientData', (dataArray) => {
+      dispatch(updateAllPatientVitals(dataArray));
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Socket.IO connection disconnected.');
+    });
+
+    socket.on('error', (error) => {
+      console.error('Socket.IO error:', error);
+    });
 
     return () => {
+      socket.disconnect();
     };
   }, [dispatch]);
 };

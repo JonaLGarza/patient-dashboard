@@ -1,0 +1,11 @@
+{
+  "name": "websocket-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jonathan Lopez",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "socket.io": "^4.8.0"
+  }
+}

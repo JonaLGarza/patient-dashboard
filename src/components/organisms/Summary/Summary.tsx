@@ -17,25 +17,61 @@ const Summary: React.FC = () => {
         tempData = tempData.filter((item) => item.gender === 'Female');
       } else if (preferences.filtering === 'highBP') {
         tempData = tempData.filter((item) => item.bloodPressure > 80);
+      } else if (preferences.filtering === 'ageAbove60') {
+        tempData = tempData.filter((item) => item.age > 60);
+      } else if (preferences.filtering === 'recentAdmissions') {
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        tempData = tempData.filter(
+          (item) => new Date(item.admissionDate) >= oneWeekAgo
+        );
+      } else if (preferences.filtering === 'hasAllergies') {
+        tempData = tempData.filter((item) => item.allergies.length > 0);
+      } else if (preferences.filtering === 'byDiagnosis' && preferences.diagnosisFilter) {
+        tempData = tempData.filter(
+          (item) => item.diagnosis === preferences.diagnosisFilter
+        );
+      } else if (
+        preferences.filtering === 'byAdmissionDate' &&
+        preferences.admissionDateRange
+      ) {
+        const selectedDate = new Date(preferences.admissionDateRange);
+        tempData = tempData.filter(
+          (item) =>
+            new Date(item.admissionDate).toDateString() ===
+            selectedDate.toDateString()
+        );
       }
     }
 
     return tempData;
   }, [data, preferences]);
 
-  const totalPatients = new Set(filteredData.map((item) => item.userId)).size;
+  const totalPatients = filteredData.length;
   const malePatients = filteredData.filter((item) => item.gender === 'Male').length;
   const femalePatients = filteredData.filter((item) => item.gender === 'Female').length;
-  const patientsWithHighBP = new Set(
-    filteredData.filter((item) => item.bloodPressure > 80).map((item) => item.userId)
-  ).size;
+  const patientsWithHighBP = filteredData.filter(
+    (item) => item.bloodPressure > 80
+  ).length;
+  const patientsAbove60 = filteredData.filter((item) => item.age > 60).length;
+  const recentAdmissions = filteredData.filter((item) => {
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    return new Date(item.admissionDate) >= oneWeekAgo;
+  }).length;
+  const patientsWithAllergies = filteredData.filter(
+    (item) => item.allergies.length > 0
+  ).length;
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <SummaryCard title="Total Patients" value={totalPatients} />
       <SummaryCard title="Male Patients" value={malePatients} />
       <SummaryCard title="Female Patients" value={femalePatients} />
-      <SummaryCard title="Patients with High Blood Pressure" value={patientsWithHighBP} />
+      <SummaryCard title="Patients with High BP" value={patientsWithHighBP} />
+      <SummaryCard title="Patients Above Age 60" value={patientsAbove60} />
+      <SummaryCard title="Recent Admissions" value={recentAdmissions} />
+      <SummaryCard title="Patients with Allergies" value={patientsWithAllergies} />
     </div>
   );
 };

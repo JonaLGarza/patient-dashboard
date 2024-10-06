@@ -4,11 +4,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface PreferencesState {
   sorting: string;
   filtering: string;
+  diagnosisFilter: string;
+  admissionDateRange: string;
 }
 
 const initialState: PreferencesState = {
-  sorting: 'default',
-  filtering: 'all',
+  sorting: localStorage.getItem('sorting') || 'default',
+  filtering: localStorage.getItem('filtering') || 'all',
+  diagnosisFilter: '',
+  admissionDateRange: '',
 };
 
 const preferencesSlice = createSlice({
@@ -21,8 +25,19 @@ const preferencesSlice = createSlice({
     setFiltering(state, action: PayloadAction<string>) {
       state.filtering = action.payload;
     },
+    setDiagnosisFilter(state, action: PayloadAction<string>) {
+      state.diagnosisFilter = action.payload;
+    },
+    setAdmissionDateRange(state, action: PayloadAction<string>) {
+      state.admissionDateRange = action.payload;
+    },
   },
 });
 
-export const { setSorting, setFiltering } = preferencesSlice.actions;
+export const {
+  setSorting,
+  setFiltering,
+  setDiagnosisFilter,
+  setAdmissionDateRange,
+} = preferencesSlice.actions;
 export default preferencesSlice.reducer;
