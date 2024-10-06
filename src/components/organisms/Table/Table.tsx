@@ -1,12 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import { RootState } from '../../../store/store';
 import TableRow from '../../molecules/TableRow/TableRow';
+import { PatientData } from '../../../store/slices/dataSlice';
+import PatientModal from '../PatientModal/PatientModal';
+import { Virtuoso } from 'react-virtuoso';
 
 const Table: React.FC = () => {
   const data = useSelector((state: RootState) => state.data.items);
   const preferences = useSelector((state: RootState) => state.preferences);
+  const [selectedPatient, setSelectedPatient] = useState<PatientData | null>(null);
 
   // Apply sorting and filtering based on preferences
   const filteredData = useMemo(() => {
@@ -53,7 +57,7 @@ const Table: React.FC = () => {
         if (preferences.sorting === 'name') {
           return a.name.localeCompare(b.name);
         } else if (preferences.sorting === 'bloodPressure') {
-          return b.bloodPressure - a.bloodPressure; // Descending order
+          return b.bloodPressure - a.bloodPressure;
         } else if (preferences.sorting === 'age') {
           return b.age - a.age;
         }
@@ -64,19 +68,27 @@ const Table: React.FC = () => {
     return tempData;
   }, [data, preferences]);
 
+  const handleRowClick = (patient: PatientData) => {
+    setSelectedPatient(patient);
+  };
+
   const Row = ({ index, style }: ListChildComponentProps) => {
     const item = filteredData[index];
     return (
-      <div style={style} className="flex">
-        <TableRow item={item} />
+      <div style={style}>
+        <TableRow item={item} onClick={handleRowClick} />
       </div>
     );
   };
 
   return (
-    <div className="table-container">
+    <>
+    {selectedPatient && (
+      <PatientModal patient={selectedPatient} onClose={() => setSelectedPatient(null)} />
+    )}
+    <div className="table-container overflow-x-auto">
       {/* Table Header */}
-      <div className="flex font-bold bg-gray-200">
+      <div className="hidden md:flex font-bold bg-blue-500 text-white sticky top-0 z-10">
         <div className="w-1/12 px-4 py-2 border">ID</div>
         <div className="w-2/12 px-4 py-2 border">Name</div>
         <div className="w-1/12 px-4 py-2 border">Age</div>
@@ -90,15 +102,19 @@ const Table: React.FC = () => {
         <div className="w-2/12 px-4 py-2 border">Allergies</div>
       </div>
       {/* Virtualized List */}
-      <List
-        height={500} // Adjust based on desired height
-        itemCount={filteredData.length}
-        itemSize={50} // Adjust based on row height
-        width="100%"
-      >
-        {Row}
-      </List>
+      <Virtuoso
+          style={{ height: '500px' }}
+          totalCount={filteredData.length}
+          itemContent={(index) => (
+            <TableRow
+              key={filteredData[index].userId}
+              item={filteredData[index]}
+              onClick={handleRowClick}
+            />
+          )}
+        />
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface PatientData {
+export interface PatientData {
   userId: number;
   name: string;
   gender: string;

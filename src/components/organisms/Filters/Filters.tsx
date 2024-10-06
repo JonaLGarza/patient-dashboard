@@ -13,7 +13,6 @@ const Filters: React.FC = () => {
     { value: 'name', label: 'Name' },
     { value: 'bloodPressure', label: 'Blood Pressure' },
     { value: 'age', label: 'Age' },
-    // Add more sorting options as needed
   ];
 
   const filteringOptions = [
@@ -57,7 +56,7 @@ const Filters: React.FC = () => {
   };
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
     <Select
       options={sortingOptions}
       value={preferences.sorting}

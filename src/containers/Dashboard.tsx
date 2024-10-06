@@ -1,4 +1,3 @@
-// src/containers/Dashboard.tsx
 import React from 'react';
 import { useWebSocket } from '../hooks/useWebSocket';
 import { useUserPreferences } from '../hooks/useUserPreferences';

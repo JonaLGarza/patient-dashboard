@@ -64,7 +64,7 @@ const Summary: React.FC = () => {
   ).length;
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <SummaryCard title="Total Patients" value={totalPatients} />
       <SummaryCard title="Male Patients" value={malePatients} />
       <SummaryCard title="Female Patients" value={femalePatients} />
