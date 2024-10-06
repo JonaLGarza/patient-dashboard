@@ -1,9 +1,10 @@
 import './App.css';
+import Dashboard from './containers/Dashboard';
 
 function App() {
   return (
     <div>
-      <h1 className='text-3xl font-bold underline'>A&M Dashboard</h1>
+      <Dashboard />
     </div>
   )
 }

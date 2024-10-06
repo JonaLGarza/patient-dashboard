@@ -15,7 +15,6 @@ export const useWebSocket = () => {
     };
 
     return () => {
-      socket.close();
     };
   }, [dispatch]);
 };
