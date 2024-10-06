@@ -1,17 +1,20 @@
-// src/components/molecules/TableRow.tsx
-import React from 'react';
-
 interface TableRowProps {
-  item: any; // Define a proper interface based on your data structure
+  item: {
+    id: number;
+    name: string;
+    gender: string;
+    bloodPressure: number;
+    // Add other fields as needed
+  };
 }
 
 const TableRow: React.FC<TableRowProps> = ({ item }) => {
   return (
     <>
-      <div className="w-1/4 px-4 py-2 border">{item.id}</div>
-      <div className="w-1/4 px-4 py-2 border">{item.title}</div>
-      <div className="w-1/2 px-4 py-2 border">{item.body}</div>
-      {/* Add more cells as needed */}
+      <div className="w-1/5 px-4 py-2 border">{item.id}</div>
+      <div className="w-2/5 px-4 py-2 border">{item.name}</div>
+      <div className="w-1/5 px-4 py-2 border">{item.gender}</div>
+      <div className="w-1/5 px-4 py-2 border">{item.bloodPressure}</div>
     </>
   );
 };

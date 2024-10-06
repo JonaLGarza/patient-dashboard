@@ -1,3 +1,4 @@
+// src/redux/slices/preferencesSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PreferencesState {

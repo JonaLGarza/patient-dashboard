@@ -1,5 +1,3 @@
-// src/components/organisms/Filters.tsx
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { setFiltering, setSorting } from '../../../store/slices/preferencesSlice';
@@ -11,12 +9,15 @@ const Filters: React.FC = () => {
 
   const sortingOptions = [
     { value: 'default', label: 'Default' },
-    { value: 'title', label: 'Title' },
+    { value: 'name', label: 'Name' },
+    { value: 'bloodPressure', label: 'Blood Pressure' },
   ];
 
   const filteringOptions = [
     { value: 'all', label: 'All' },
-    { value: 'user1', label: 'User 1' },
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'highBP', label: 'High Blood Pressure' },
   ];
 
   const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -37,11 +38,13 @@ const Filters: React.FC = () => {
         options={sortingOptions}
         value={preferences.sorting}
         onChange={handleSortingChange}
+        label="Sort By"
       />
       <Select
         options={filteringOptions}
         value={preferences.filtering}
         onChange={handleFilteringChange}
+        label="Filter By"
       />
     </div>
   );
